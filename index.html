@@ -1,109 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ASP FACULTY</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Balloon Styles */
-    .balloon {
-      position: absolute;
-      bottom: -150px;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      opacity: 0.9;
-      animation: floatUp linear infinite;
-      filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
-      z-index: 10;
-      width: 60px;
-      height: 80px;
-    }
-
-    .balloon.red { background: #ef4444; }
-    .balloon.blue { background: #3b82f6; }
-    .balloon.green { background: #10b981; }
-    .balloon.yellow { background: #fbbf24; }
-    .balloon.purple { background: #8b5cf6; }
-    .balloon.pink { background: #ec4899; }
-    .balloon.orange { background: #fb923c; }
-
-    @keyframes floatUp {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateY(-110vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    /* Scaling animation for photo */
-    .photo-scale {
-      animation: scaleUp 5s ease forwards;
-      opacity: 0;
-      max-width: 100%;
-      border-radius: 0.5rem;
-      box-shadow: 0 0 20px #fbbf24;
-      transition: box-shadow 0.3s ease;
-    }
-    .photo-scale:hover {
-      box-shadow: 0 0 40px #f59e0b;
-    }
-
-    @keyframes scaleUp {
-      0% {
-        opacity: 0;
-        transform: scale(0.8);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    /* Fireworks canvas */
-    #fireworksCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-    }
-  </style>
 </head>
-<body class="bg-blue-100 min-h-screen flex flex-col justify-between relative overflow-x-hidden">
-
-  <!-- Fireworks Canvas -->
-  <canvas id="fireworksCanvas"></canvas>
-
-  <!-- Balloons -->
-  <div class="balloon red" style="left: 5vw; animation-duration: 12s; animation-delay: 0s;"></div>
-  <div class="balloon blue" style="left: 15vw; animation-duration: 14s; animation-delay: 2s;"></div>
-  <div class="balloon green" style="left: 25vw; animation-duration: 13s; animation-delay: 1s;"></div>
-  <div class="balloon yellow" style="left: 35vw; animation-duration: 15s; animation-delay: 3s;"></div>
-  <div class="balloon purple" style="left: 45vw; animation-duration: 12s; animation-delay: 4s;"></div>
-  <div class="balloon pink" style="left: 55vw; animation-duration: 14s; animation-delay: 5s;"></div>
-  <div class="balloon orange" style="left: 65vw; animation-duration: 13s; animation-delay: 6s;"></div>
-  <div class="balloon blue" style="left: 75vw; animation-duration: 15s; animation-delay: 7s;"></div>
-  <div class="balloon green" style="left: 85vw; animation-duration: 12s; animation-delay: 8s;"></div>
+<body class="bg-blue-100 min-h-screen flex flex-col justify-between">
 
   <!-- Header -->
-  <header class="bg-blue-600 text-white text-center py-4 text-2xl font-bold relative z-20">
+  <header class="bg-blue-600 text-white text-center py-4 text-2xl font-bold">
     ASP FACULTY
   </header>
 
-  <main class="flex-grow flex flex-col items-center justify-center p-6 relative z-20">
-    <div class="text-center mb-6 w-full max-w-xl">
-      <!-- Image with scaling animation -->
+  <main class="flex-grow flex items-center justify-center p-6">
+    <div class="text-center">
+      <!-- Image -->
       <img 
         src="ASP.jpg" 
         alt="Teachers Day Celebration" 
-        class="photo-scale mx-auto"
+        class="rounded-lg shadow-lg mx-auto w-full max-w-xl"
       />
     </div>
+  </main>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex items-center justify-center">
     <button 
       onclick="openTeachersDayPage()"
       class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300"
@@ -113,111 +35,17 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-gray-200 text-center py-4 mt-12 relative z-20">
+  <footer class="bg-gray-800 text-gray-200 text-center py-4 mt-12">
     <p>Copyright. All Rights by Aspinfotech</p>
   </footer>
   
+  
   <script>
-    // Fireworks canvas animation script
-    const canvas = document.getElementById('fireworksCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    class Firework {
-      constructor(x, y, targetY) {
-        this.x = x;
-        this.y = y;
-        this.targetY = targetY;
-        this.speed = 7 + Math.random() * 3;
-        this.distanceTraveled = 0;
-        this.exploded = false;
-      }
-      update() {
-        this.y -= this.speed;
-        this.distanceTraveled += this.speed;
-        if (this.y <= this.targetY && !this.exploded) {
-          this.exploded = true;
-          this.createParticles();
-        }
-      }
-      draw() {
-        if (!this.exploded) {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-          ctx.fillStyle = 'white';
-          ctx.fill();
-        }
-      }
-      createParticles() {
-        for (let i = 0; i < 30; i++) {
-          particles.push(new Particle(this.x, this.y));
-        }
-      }
-    }
-
-    class Particle {
-      constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.radius = 2;
-        this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
-        this.speedX = (Math.random() - 0.5) * 6;
-        this.speedY = (Math.random() - 0.5) * 6;
-        this.life = 40 + Math.random() * 30;
-        this.opacity = 1;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.life--;
-        this.opacity = this.life / 70;
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${Math.random() * 360}, 100%, 60%, ${this.opacity})`;
-        ctx.fill();
-      }
-    }
-
-    const fireworks = [];
-    const particles = [];
-
-    function randomRange(min, max) {
-      return Math.random() * (max - min) + min;
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (Math.random() < 0.05) {
-        const x = Math.random() * canvas.width;
-        const targetY = randomRange(canvas.height / 4, canvas.height / 2);
-        fireworks.push(new Firework(x, canvas.height, targetY));
-      }
-      fireworks.forEach((fw, i) => {
-        fw.update();
-        fw.draw();
-        if (fw.exploded) fireworks.splice(i, 1);
-      });
-      particles.forEach((p, i) => {
-        p.update();
-        p.draw();
-        if (p.life <= 0) particles.splice(i, 1);
-      });
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-
     function openTeachersDayPage() {
       window.open("HappyTeachersDay.html", "_blank");
     }
   </script>
-
 </body>
 </html>
+
+
