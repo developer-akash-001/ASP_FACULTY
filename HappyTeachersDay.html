@@ -45,66 +45,119 @@
     .image-animate:nth-child(5) { animation-delay: 1s; }
     .image-animate:nth-child(6) { animation-delay: 1.2s; }
 
-
     /* Animated background gradient */
-  .animated-bg {
-    background: linear-gradient(-45deg, #fce4ec, #f8bbd0, #f48fb1, #f06292);
-    background-size: 400% 400%;
-    animation: gradientMove 12s ease infinite;
-  }
-
-  @keyframes gradientMove {
-    0% {
-      background-position: 0% 50%;
+    .animated-bg {
+      background: linear-gradient(-45deg, #1a1718, #f55e93, #29d3ed, #f3f86f);
+      background-size: 400% 400%;
+      animation: gradientMove 12s ease infinite;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0;
     }
-    50% {
-      background-position: 100% 50%;
+    @keyframes gradientMove {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
-    100% {
-      background-position: 0% 50%;
+
+    /* Balloon Styles */
+    .balloon {
+      position: fixed;
+      bottom: -150px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      opacity: 0.9;
+      animation: floatUp linear infinite;
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+      z-index: 10;
+      width: 60px;
+      height: 80px;
     }
-  }
 
+    .balloon.red { background: #ef4444; }
+    .balloon.blue { background: #3b82f6; }
+    .balloon.green { background: #10b981; }
+    .balloon.yellow { background: #fbbf24; }
+    .balloon.purple { background: #8b5cf6; }
+    .balloon.pink { background: #ec4899; }
+    .balloon.orange { background: #fb923c; }
 
-  /* Animated Gradient Background (optional layer behind confetti) */
-.animated-bg {
-  background: linear-gradient(-45deg, #1a1718, #f55e93, #29d3ed, #f3f86f);
-  background-size: 400% 400%;
-  animation: gradientMove 12s ease infinite;
-}
-@keyframes gradientMove {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
 
-/* CSS for overall layout */
-body {
-  min-height: 100vh;
-  font-family: sans-serif;
-  position: relative;
-  overflow-x: hidden;
-}
-.image-animate:nth-child(1) { animation-delay: 0.2s; }
-.image-animate:nth-child(2) { animation-delay: 0.4s; }
-.image-animate:nth-child(3) { animation-delay: 0.6s; }
-.image-animate:nth-child(4) { animation-delay: 0.8s; }
-.image-animate:nth-child(5) { animation-delay: 1s; }
-.image-animate:nth-child(6) { animation-delay: 1.2s; }
+    /* Scale animation for developer images */
+    .developer-img {
+      transition: box-shadow 0.3s ease;
+      animation: scaleUp 3s ease forwards;
+      opacity: 0;
+    }
+    .developer-img:hover {
+      box-shadow: 0 0 20px #f59e0b;
+      transform: scale(1.05);
+    }
+    @keyframes scaleUp {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-.fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+    /* Fireworks canvas */
+    #fireworksCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 5;
+    }
 
-@keyframes zoomIn {
-  0% { opacity: 0; transform: scale(0.8); }
-  100% { opacity: 1; transform: scale(1); }
-}
-.zoom-in { animation: zoomIn 1.2s ease-out forwards; }
+    /* To keep main content above balloons & fireworks */
+    main, section, h1, h2, footer {
+      position: relative;
+      z-index: 20;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: sans-serif;
+      position: relative;
+      overflow-x: hidden;
+      background: transparent !important; /* background handled by animated-bg div */
+    }
   </style>
 </head>
-<body class="bg-pink-50 text-center p-6 font-sans">
+<body>
+
+  <!-- Animated Gradient Background -->
+  <div class="animated-bg"></div>
+
+  <!-- Fireworks Canvas -->
+  <canvas id="fireworksCanvas"></canvas>
+
+  <!-- Balloons -->
+  <div class="balloon red" style="left: 5vw; animation-duration: 12s; animation-delay: 0s;"></div>
+  <div class="balloon blue" style="left: 15vw; animation-duration: 14s; animation-delay: 2s;"></div>
+  <div class="balloon green" style="left: 25vw; animation-duration: 13s; animation-delay: 1s;"></div>
+  <div class="balloon yellow" style="left: 35vw; animation-duration: 15s; animation-delay: 3s;"></div>
+  <div class="balloon purple" style="left: 45vw; animation-duration: 12s; animation-delay: 4s;"></div>
+  <div class="balloon pink" style="left: 55vw; animation-duration: 14s; animation-delay: 5s;"></div>
+  <div class="balloon orange" style="left: 65vw; animation-duration: 13s; animation-delay: 6s;"></div>
+  <div class="balloon blue" style="left: 75vw; animation-duration: 15s; animation-delay: 7s;"></div>
+  <div class="balloon green" style="left: 85vw; animation-duration: 12s; animation-delay: 8s;"></div>
+
+  <body class="bg-pink-50 text-center p-6 font-sans">
 
   <!-- Heading -->
   <h1 class="text-5xl font-extrabold text-pink-700 mb-4 fade-in-up">
@@ -117,59 +170,55 @@ body {
   </p>
 
   <!-- Image Grid -->
-  <!-- Image Grid 2x2 -->
   <h2 class="text-3xl font-bold text-pink-700 mb-8 fade-in-up">
     👨‍💻 Teacher's
   </h2>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto my-12">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto my-12">
     <!-- Image 1 -->
     <img src="1.jpg" alt="Teacher 1" class="rounded-lg shadow-lg zoom-in image-animate" />
-    
     <!-- Image 2 -->
     <img src="2.jpg" alt="Teacher 2" class="rounded-lg shadow-lg zoom-in image-animate" />
-    
     <!-- Image 3 -->
     <img src="3.jpg" alt="Teacher 3" class="rounded-lg shadow-lg zoom-in image-animate" />
-    
     <!-- Image 4 -->
     <img src="4.jpg" alt="Teacher 4" class="rounded-lg shadow-lg zoom-in image-animate" />
-
     <!-- Image 5 -->
-    <img src="5.jpg" alt="Teacher 4" class="rounded-lg shadow-lg zoom-in image-animate" />
+    <img src="5.jpg" alt="Teacher 5" class="rounded-lg shadow-lg zoom-in image-animate" />
   </div>
-   <!-- Developer Section -->
-<section class="mt-16">
+
+  <!-- Developer Section -->
+  <section class="mt-16">
     <h2 class="text-3xl font-bold text-pink-700 mb-8 fade-in-up">
       👨‍💻 Developers
     </h2>
     
     <div class="flex flex-col md:flex-row justify-center items-center gap-10">
-      
       <!-- Developer 1 -->
       <div class="bg-white p-6 rounded-lg shadow-md text-center w-64 fade-in-up">
-        <img src="Akash.jpg" alt="Developer 1" class="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-pink-400">
+        <img src="Akash.jpg" alt="Developer 1" class="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-pink-400 developer-img" />
         <h3 class="text-xl font-semibold text-gray-800">Akash</h3>
         <p class="text-pink-600 font-medium">Your Student</p>
       </div>
   
       <!-- Developer 2 -->
       <div class="bg-white p-6 rounded-lg shadow-md text-center w-64 fade-in-up">
-        <img src="Abhijit.jpg" alt="Developer 2" class="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-pink-400">
+        <img src="Abhijit.jpg" alt="Developer 2" class="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-pink-400 developer-img" />
         <h3 class="text-xl font-semibold text-gray-800">Abhijit</h3>
         <p class="text-pink-600 font-medium">Your Student</p>
       </div>
-  
     </div>
   </section>
-   <!-- Footer -->
-   <footer class="bg-gray-800 text-gray-200 text-center py-4 mt-12">
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-200 text-center py-4 mt-12 relative z-20">
     <p>Copyright. All Rights by Aspinfotech</p>
   </footer>
+
   <script>
     // Confetti Animation
     const colors = ["#FFC0CB", "#FFD700", "#ADFF2F", "#87CEEB", "#FFA07A"];
     const numParticles = 100;
-    
+
     function createConfetti() {
       const confettiContainer = document.createElement("div");
       confettiContainer.style.position = "fixed";
@@ -179,8 +228,9 @@ body {
       confettiContainer.style.height = "100%";
       confettiContainer.style.pointerEvents = "none";
       confettiContainer.style.overflow = "hidden";
+      confettiContainer.style.zIndex = "15";
       document.body.appendChild(confettiContainer);
-    
+
       for (let i = 0; i < numParticles; i++) {
         const confetti = document.createElement("div");
         const size = Math.random() * 8 + 4;
@@ -194,28 +244,50 @@ body {
         confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
         confetti.style.transition = `transform 3s ease-out, top 3s ease-out, opacity 3s ease-out`;
         confettiContainer.appendChild(confetti);
-    
+
         // Trigger animation
         setTimeout(() => {
           confetti.style.top = `${100 + Math.random() * 20}%`;
           confetti.style.transform += ` translateY(100px)`; 
           confetti.style.opacity = 0;
         }, 10);
-    
+
         // Remove after animation
         confetti.addEventListener("transitionend", () => {
           confetti.remove();
         });
       }
-    
+
       // Repeat the confetti burst
       setTimeout(createConfetti, 3000);
     }
     window.addEventListener("load", createConfetti);
-    </script>
-    
 
-</body>
-</html>
+    // Fireworks canvas animation script
+    const canvas = document.getElementById('fireworksCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-
+    class Firework {
+      constructor(x, y, targetY) {
+        this.x = x;
+        this.y = y;
+        this.targetY = targetY;
+        this.speed = 7 + Math.random() * 3;
+        this.distanceTraveled = 0;
+        this.exploded = false;
+      }
+      update() {
+        this.y -= this.speed;
+        this.distanceTraveled += this.speed;
+        if (this.y <= this.targetY && !this.exploded) {
+          this.exploded = true;
+          this.createParticles();
+        }
+      }
+      draw() {
+        if (!this.exploded) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+          ctx.fill
